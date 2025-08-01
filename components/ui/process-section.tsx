@@ -1,72 +1,75 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { 
-  UserPlus, 
-  Settings, 
-  Send, 
-  BarChart3, 
-  CheckCircle, 
-  ArrowRight,
-  Clock,
-  Target,
-  Zap
-} from 'lucide-react';
+import { motion } from 'framer-motion';
+import { CheckCircle, Clock, Settings, Users, BarChart3, ArrowRight, Target, Zap, CheckCircle2 } from 'lucide-react';
 
-const processSteps = [
-  {
-    step: '01',
-    icon: UserPlus,
-    title: 'Create Assessment',
-    description: 'Design custom assessments or choose from our extensive library of pre-built tests tailored to specific roles and skills.',
-    features: ['Custom Questions', 'Template Library', 'Multi-format Support'],
-    time: '5 minutes'
-  },
-  {
-    step: '02',
-    icon: Settings,
-    title: 'Configure Settings',
-    description: 'Set time limits, difficulty levels, and evaluation criteria. Customize the assessment experience to match your requirements.',
-    features: ['Time Controls', 'Difficulty Scaling', 'Custom Branding'],
-    time: '3 minutes'
-  },
-  {
-    step: '03',
-    icon: Send,
-    title: 'Invite Candidates',
-    description: 'Send assessment invitations via email or share direct links. Track delivery status and candidate engagement in real-time.',
-    features: ['Email Integration', 'Link Sharing', 'Delivery Tracking'],
-    time: '2 minutes'
-  },
-  {
-    step: '04',
-    icon: BarChart3,
-    title: 'Analyze Results',
-    description: 'Get comprehensive reports with detailed analytics, performance insights, and AI-powered recommendations for each candidate.',
-    features: ['Detailed Reports', 'AI Insights', 'Comparison Tools'],
-    time: 'Instant'
-  }
-];
+interface ProcessCard {
+  step: string;
+  title: string;
+  duration: string;
+  features: string[];
+  description: string;
+}
 
-export function ProcessSection() {
+interface SummaryCard {
+  title: string;
+  subtitle: string;
+  icon?: string;
+}
+
+interface SetupData {
+  badge: string;
+  title: string;
+  subtitle: string;
+  process_cards: ProcessCard[];
+  summary_cards: SummaryCard[];
+}
+
+interface ProcessSectionProps {
+  setup: SetupData;
+}
+
+export function ProcessSection({ setup }: ProcessSectionProps) {
+  const stepIcons = [Settings, Users, Clock, BarChart3];
+
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-20 bg-gradient-to-br from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-brand-green/10 border border-brand-green/20 mb-6">
-            <Zap className="w-4 h-4 text-brand-green mr-2" />
-            <span className="text-brand-green font-medium text-sm">Simple 4-Step Process</span>
+          <motion.div
+            className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green px-4 py-2 rounded-full text-sm font-medium mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Clock className="w-4 h-4" />
+            {setup.badge}
+          </motion.div>
+          
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-brand-navy mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <div>
+              <div>From Setup to Insights in</div>
+              <div className="text-brand-green">Under 10 Minutes</div>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            From Setup to Insights in
-            <span className="block text-brand-green">Under 10 Minutes</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our streamlined process makes it incredibly easy to create, deploy, and analyze assessments. 
-            No technical expertise required.
-          </p>
+          </motion.h2>
+          
+          <motion.p
+            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            {setup.subtitle}
+          </motion.p>
         </div>
 
         {/* Process Steps */}
@@ -75,95 +78,93 @@ export function ProcessSection() {
           <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-brand-green via-brand-navy to-brand-green transform -translate-y-1/2 z-0"></div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
-            {processSteps.map((step, index) => {
-              const IconComponent = step.icon;
+            {setup.process_cards.map((card, index) => {
+              const IconComponent = stepIcons[index] || Settings;
               return (
-                <Card key={index} className="group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 bg-white border-gray-200 hover:border-brand-green/30">
-                  <CardContent className="p-6">
+                <motion.div
+                  key={index}
+                  className="group relative bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
                     {/* Step Number */}
-                    <div className="flex items-center justify-between mb-6">
-                      <Badge className="bg-brand-green/10 text-brand-green border-brand-green/20 text-lg font-bold px-3 py-1">
-                        {step.step}
-                      </Badge>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <Clock className="w-4 h-4 mr-1" />
-                        {step.time}
-                      </div>
+                  <div className="absolute -top-4 left-8 w-8 h-8 bg-brand-green text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {card.step}
                     </div>
 
                     {/* Icon */}
-                    <div className="mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-brand-green to-brand-navy rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <div className="w-16 h-16 bg-brand-green rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <IconComponent className="w-8 h-8 text-white" />
-                      </div>
                     </div>
 
-                    {/* Content */}
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-green transition-colors duration-300">
-                      {step.title}
+                  {/* Title */}
+                  <h3 className="text-2xl font-bold text-brand-navy mb-2">
+                    {card.title}
                     </h3>
-                    <p className="text-gray-600 mb-4 leading-relaxed">
-                      {step.description}
+
+                  {/* Duration */}
+                  <p className="text-brand-green font-semibold mb-4">
+                    {card.duration}
+                  </p>
+
+                  {/* Description */}
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {card.description}
                     </p>
 
                     {/* Features */}
-                    <div className="space-y-2">
-                      {step.features.map((feature, featureIndex) => (
-                        <div key={featureIndex} className="flex items-center text-sm text-gray-600">
-                          <CheckCircle className="w-4 h-4 text-brand-green mr-2 flex-shrink-0" />
-                          {feature}
-                        </div>
+                  <ul className="space-y-2">
+                    {card.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-brand-green flex-shrink-0" />
+                        <span className="text-sm text-gray-700">{feature}</span>
+                      </li>
                       ))}
-                    </div>
+                  </ul>
 
-                    {/* Arrow for larger screens */}
-                    {index < processSteps.length - 1 && (
-                      <div className="hidden lg:block absolute -right-4 top-1/2 transform -translate-y-1/2 z-20">
+                  {/* Arrow - Shows on hover */}
+                  {index < setup.process_cards.length - 1 && (
+                    <div className="hidden lg:block absolute -right-4 top-1/2 transform -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="w-8 h-8 bg-white rounded-full border-2 border-brand-green flex items-center justify-center shadow-lg">
                           <ArrowRight className="w-4 h-4 text-brand-green" />
                         </div>
                       </div>
                     )}
-                  </CardContent>
-                </Card>
+                </motion.div>
               );
             })}
           </div>
         </div>
 
-        {/* Bottom Stats */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-            <Target className="w-8 h-8 text-brand-green mx-auto mb-3" />
-            <div className="text-3xl font-bold text-gray-900 mb-2">10 Min</div>
-            <div className="text-gray-600">Average Setup Time</div>
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+          {setup.summary_cards.map((card, index) => {
+            const summaryIcons = [Target, Zap, CheckCircle2];
+            const IconComponent = summaryIcons[index] || Target;
+            
+            return (
+              <motion.div
+                key={index}
+                className="bg-white rounded-2xl p-8 border border-gray-100 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-12 h-12 bg-brand-green rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <IconComponent className="w-6 h-6 text-white" />
           </div>
-          <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-            <Zap className="w-8 h-8 text-brand-green mx-auto mb-3" />
-            <div className="text-3xl font-bold text-gray-900 mb-2">Instant</div>
-            <div className="text-gray-600">Results & Analytics</div>
-          </div>
-          <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-            <CheckCircle className="w-8 h-8 text-brand-green mx-auto mb-3" />
-            <div className="text-3xl font-bold text-gray-900 mb-2">99.9%</div>
-            <div className="text-gray-600">Platform Uptime</div>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-brand-navy to-brand-green rounded-2xl p-8 text-white">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Streamline Your Hiring?
+                <h3 className="text-3xl font-bold text-gray-700 mb-2">
+                  {card.title}
             </h3>
-            <p className="text-lg text-white/90 mb-6 max-w-2xl mx-auto">
-              Join thousands of companies who have simplified their assessment process with our platform.
-            </p>
-            <button className="bg-white text-brand-navy hover:bg-gray-100 px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
-              Start Your Free Trial
-              <ArrowRight className="ml-2 w-5 h-5 inline" />
-            </button>
-          </div>
+                <p className="text-gray-600 font-medium">
+                  {card.subtitle}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

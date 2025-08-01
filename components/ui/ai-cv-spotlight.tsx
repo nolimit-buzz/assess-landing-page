@@ -1,100 +1,97 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Brain, Star, TrendingUp, Users, CheckCircle, ArrowRight } from 'lucide-react';
-import { Button } from './button';
+import { CheckCircle, TrendingUp, Zap, Shield } from 'lucide-react';
 
-export function AICVSpotlight() {
-  const features = [
-    {
-      icon: Brain,
-      title: "AI-Powered Analysis",
-      description: "Advanced machine learning algorithms analyze CVs with 95% accuracy"
-    },
-    {
-      icon: Star,
-      title: "Smart Ranking",
-      description: "Automatically ranks candidates based on job requirements and skills match"
-    },
-    {
-      icon: TrendingUp,
-      title: "Predictive Scoring",
-      description: "Predicts candidate success probability using historical data patterns"
-    },
-    {
-      icon: Users,
-      title: "Bias-Free Selection",
-      description: "Eliminates unconscious bias with objective, data-driven evaluations"
-    }
-  ];
+interface CVRankingData {
+  badge: string;
+  title: string;
+  subtitle: string;
+  features: Array<{
+    title: string;
+    description: string;
+  }>;
+  results: Array<{
+    tag?: string;
+    title?: string;
+    name?: string;
+    score?: number;
+    initials?: string;
+    matchLevel?: string;
+  }>;
+}
 
-  const benefits = [
-    "Reduce screening time by 80%",
-    "Improve hire quality by 65%",
-    "Eliminate manual CV review",
-    "Scale recruitment effortlessly"
-  ];
+interface AICVSpotlightProps {
+  cvRanking: CVRankingData;
+}
+
+export function AICVSpotlight({ cvRanking }: AICVSpotlightProps) {
+  const featureIcons = [TrendingUp, Zap, Shield, CheckCircle];
 
   return (
     <section className="py-20 bg-gradient-to-br from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Centered Header */}
         <div className="text-center mb-16">
           <motion.div
+            className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green px-4 py-2 rounded-full text-sm font-medium mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green px-4 py-2 rounded-full text-sm font-medium mb-6"
+            viewport={{ once: true }}
           >
-            <Brain className="w-4 h-4" />
-            Feature Spotlight
+            <div className="w-2 h-2 bg-brand-green rounded-full animate-pulse" />
+            {cvRanking.badge}
           </motion.div>
           
           <motion.h2
+            className="text-4xl md:text-5xl font-bold text-brand-navy mb-6 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold text-brand-navy mb-6"
+            viewport={{ once: true }}
           >
-            AI CV Ranking
-            <span className="block text-brand-green">That Actually Works</span>
+            <div>
+              <div>AI CV Ranking</div>
+              <div className="text-brand-green">That Actually Works</div>
+            </div>
           </motion.h2>
           
           <motion.p
+            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            viewport={{ once: true }}
           >
-            Transform your recruitment process with our revolutionary AI that understands context, 
-            evaluates skills, and ranks candidates with unprecedented accuracy.
+            {cvRanking.subtitle}
           </motion.p>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-          {/* Left: Features */}
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left Column - Features */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            <div className="space-y-8">
-              {features.map((feature, index) => (
+            {/* Features */}
+            <div className="space-y-6">
+              {cvRanking.features.map((feature, index) => {
+                const IconComponent = featureIcons[index] || CheckCircle;
+                return (
                 <motion.div
                   key={index}
+                    className="flex items-start gap-4"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="flex gap-4 group"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center group-hover:bg-brand-green/20 transition-colors duration-300">
-                    <feature.icon className="w-6 h-6 text-brand-green" />
+                    <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <IconComponent className="w-6 h-6 text-brand-green" />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-brand-navy mb-2">
@@ -105,81 +102,88 @@ export function AICVSpotlight() {
                     </p>
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
 
-          {/* Right: Visual Demo */}
+          {/* Right Column - Results */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
-              <div className="flex items-center justify-between mb-6">
-                <h4 className="text-lg font-semibold text-brand-navy">CV Ranking Results</h4>
-                <div className="flex items-center gap-2 text-sm text-brand-green">
-                  <Brain className="w-4 h-4" />
-                  AI Powered
+            {/* 95% Accuracy Card - Floating Overlap */}
+            <div className="absolute -top-4 -right-4 bg-brand-green text-white px-4 py-3 rounded-xl text-center shadow-lg z-10">
+              <div className="text-lg font-bold">95%</div>
+              <div className="text-xs">Accuracy</div>
+            </div>
+
+            {/* Results Container */}
+            <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-2xl font-bold text-brand-navy">
+                  CV Ranking Results
+                </h3>
+                <div className="flex items-center gap-2 text-brand-green text-sm">
+                  <TrendingUp className="w-4 h-4" />
+                  <span>AI Powered</span>
                 </div>
               </div>
               
-              {/* Mock CV Rankings */}
+              {/* Results List */}
               <div className="space-y-4">
-                {[
-                  { name: "Sarah Johnson", score: 96, match: "Excellent Match", color: "bg-green-500" },
-                  { name: "Michael Chen", score: 89, match: "Strong Match", color: "bg-blue-500" },
-                  { name: "Emily Rodriguez", score: 82, match: "Good Match", color: "bg-yellow-500" },
-                  { name: "David Kim", score: 75, match: "Fair Match", color: "bg-orange-500" }
-                ].map((candidate, index) => (
+                {cvRanking.results.slice(1).map((result, index) => {
+                  const colors = ['bg-green-500', 'bg-blue-500', 'bg-yellow-500', 'bg-orange-500'];
+                  const color = colors[index] || 'bg-gray-500';
+                  
+                  return (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                      className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-sm font-medium text-gray-600">
-                        {candidate.name.split(' ').map(n => n[0]).join('')}
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-700 font-semibold text-sm">
+                          {result.initials || 'NA'}
                       </div>
                       <div>
-                        <p className="font-medium text-brand-navy">{candidate.name}</p>
-                        <p className="text-sm text-gray-500">{candidate.match}</p>
+                          <h4 className="font-semibold text-brand-navy">
+                            {result.name || 'Candidate'}
+                          </h4>
+                          <p className="text-sm text-gray-600">
+                            {result.matchLevel || 'Match Level'}
+                          </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-right">
-                        <p className="font-bold text-brand-navy">{candidate.score}%</p>
+                          <div className="text-lg font-bold text-brand-navy">
+                            {result.score || 0}%
+                          </div>
+                        </div>
                         <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div 
-                            className={`h-full ${candidate.color} transition-all duration-1000`}
-                            style={{ width: `${candidate.score}%` }}
+                            className={`h-full ${color} transition-all duration-1000`}
+                            style={{ width: `${result.score || 0}%` }}
                           />
-                        </div>
                       </div>
                     </div>
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
             </div>
             
-            {/* Floating Stats */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -top-4 -right-4 bg-brand-green text-white p-4 rounded-xl shadow-lg"
-            >
-              <div className="text-center">
-                <p className="text-2xl font-bold">95%</p>
-                <p className="text-sm opacity-90">Accuracy</p>
-              </div>
-            </motion.div>
+            {/* Decorative Elements */}
+            <div className="absolute -top-4 -right-4 w-32 h-32 bg-brand-green/10 rounded-full blur-2xl" />
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-brand-navy/10 rounded-full blur-2xl" />
           </motion.div>
         </div>
       </div>

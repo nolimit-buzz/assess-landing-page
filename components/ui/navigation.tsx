@@ -5,7 +5,16 @@ import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
-export function Navigation() {
+interface NavLink {
+  href: string;
+  title: string;
+}
+
+interface NavigationProps {
+  navLinks: NavLink[];
+}
+
+export function Navigation({ navLinks }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -27,28 +36,25 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              <a href="#features" className="text-gray-700 hover:text-brand-green px-3 py-2 text-sm font-medium transition-colors">
-                Features
-              </a>
-              <a href="#process" className="text-gray-700 hover:text-brand-green px-3 py-2 text-sm font-medium transition-colors">
-                How it Works
-              </a>
-              <a href="#benefits" className="text-gray-700 hover:text-brand-green px-3 py-2 text-sm font-medium transition-colors">
-                Benefits
-              </a>
-              <a href="#pricing" className="text-gray-700 hover:text-brand-green px-3 py-2 text-sm font-medium transition-colors">
-                Pricing
-              </a>
+              {navLinks.slice(0, -2).map((link) => (
+                <a 
+                  key={link.href}
+                  href={link.href} 
+                  className="text-gray-700 hover:text-brand-green px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  {link.title}
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" className="text-gray-700 hover:text-brand-green">
-              Sign In
+              {navLinks[navLinks.length - 2]?.title || 'Sign In'}
             </Button>
             <Button className="bg-brand-green hover:bg-brand-green/90 text-white">
-              Get Started Free
+              {navLinks[navLinks.length - 1]?.title || 'Get Started Free'}
             </Button>
           </div>
 
@@ -69,25 +75,22 @@ export function Navigation() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
-              <a href="#features" className="text-gray-700 hover:text-brand-green block px-3 py-2 text-base font-medium">
-                Features
-              </a>
-              <a href="#process" className="text-gray-700 hover:text-brand-green block px-3 py-2 text-base font-medium">
-                How it Works
-              </a>
-              <a href="#benefits" className="text-gray-700 hover:text-brand-green block px-3 py-2 text-base font-medium">
-                Benefits
-              </a>
-              <a href="#pricing" className="text-gray-700 hover:text-brand-green block px-3 py-2 text-base font-medium">
-                Pricing
-              </a>
+              {navLinks.slice(0, -2).map((link) => (
+                <a 
+                  key={link.href}
+                  href={link.href} 
+                  className="text-gray-700 hover:text-brand-green block px-3 py-2 text-base font-medium"
+                >
+                  {link.title}
+                </a>
+              ))}
               <div className="pt-4 pb-3 border-t border-gray-100">
                 <div className="flex flex-col space-y-2">
                   <Button variant="ghost" className="text-gray-700 hover:text-brand-green justify-start">
-                    Sign In
+                    {navLinks[navLinks.length - 2]?.title || 'Sign In'}
                   </Button>
                   <Button className="bg-brand-green hover:bg-brand-green/90 text-white">
-                    Get Started Free
+                    {navLinks[navLinks.length - 1]?.title || 'Get Started Free'}
                   </Button>
                 </div>
               </div>

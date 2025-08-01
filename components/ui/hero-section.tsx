@@ -4,7 +4,24 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Users, Clock, TrendingUp, CheckCircle } from 'lucide-react';
 
-export function HeroSection() {
+interface HeroData {
+  badge: string;
+  title: string;
+  subtitle: string;
+  primary_cta: string;
+  secondary_cta: string;
+  clients: string[];
+  stats: Array<{
+    label: string;
+    value: string;
+  }>;
+}
+
+interface HeroSectionProps {
+  hero: HeroData;
+}
+
+export function HeroSection({ hero }: HeroSectionProps) {
   return (
     <section className="relative bg-white py-20 lg:py-32 overflow-hidden">
       {/* Background Elements */}
@@ -17,45 +34,39 @@ export function HeroSection() {
           {/* Status Badge */}
           <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green px-4 py-2 rounded-full text-sm font-medium mb-8 border border-brand-green/20">
             <div className="w-2 h-2 bg-brand-green rounded-full animate-pulse" />
-            Live Platform • 10,000+ Active Users
+            {hero.badge}
           </div>
 
           {/* Main Headline */}
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-navy mb-8 leading-tight">
-            The Smarter Way to{' '}
-            <span className="text-brand-green">Find, Hire</span>{' '}
-            & Retain Top Talent
+            {hero.title.split('Find, Hire').map((part, index, array) => (
+              <span key={index}>
+                {part}
+                {index < array.length - 1 && (
+                  <span className="text-brand-green">Find, Hire</span>
+                )}
+              </span>
+            ))}
           </h1>
 
           {/* Subheadline */}
           <p className="text-xl lg:text-2xl text-brand-navy/70 mb-12 leading-relaxed max-w-3xl mx-auto">
-            Revolutionary assessment platform that helps you simplify talent acquisition, 
-            retention and management. Reduce recruitment time by 60% with AI-powered assessments.
+            {hero.subtitle}
           </p>
 
           {/* Key Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12 max-w-2xl mx-auto">
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2 text-brand-navy">
-                <Users className="w-6 h-6 text-brand-green" />
-                <span className="text-3xl font-bold">10K+</span>
+            {hero.stats.map((stat, index) => (
+              <div key={index} className="flex flex-col items-center gap-2">
+                <div className="flex items-center gap-2 text-brand-navy">
+                  {index === 0 && <Users className="w-6 h-6 text-brand-green" />}
+                  {index === 1 && <Clock className="w-6 h-6 text-brand-green" />}
+                  {index === 2 && <TrendingUp className="w-6 h-6 text-brand-green" />}
+                  <span className="text-3xl font-bold">{stat.value}</span>
+                </div>
+                <span className="text-brand-navy/60 text-sm">{stat.label}</span>
               </div>
-              <span className="text-brand-navy/60 text-sm">Companies Trust Us</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2 text-brand-navy">
-                <Clock className="w-6 h-6 text-brand-green" />
-                <span className="text-3xl font-bold">60%</span>
-              </div>
-              <span className="text-brand-navy/60 text-sm">Faster Hiring</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2 text-brand-navy">
-                <TrendingUp className="w-6 h-6 text-brand-green" />
-                <span className="text-3xl font-bold">95%</span>
-              </div>
-              <span className="text-brand-navy/60 text-sm">Success Rate</span>
-            </div>
+            ))}
           </div>
 
           {/* CTA Buttons */}
@@ -64,7 +75,7 @@ export function HeroSection() {
               size="lg" 
               className="bg-brand-green hover:bg-brand-green/90 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
-              Start Free Assessment
+              {hero.primary_cta}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
@@ -72,7 +83,7 @@ export function HeroSection() {
               size="lg"
               className="border-2 border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
             >
-              Watch Demo
+              {hero.secondary_cta}
             </Button>
           </div>
 
@@ -80,26 +91,12 @@ export function HeroSection() {
           <div className="space-y-4">
             <p className="text-brand-navy/60 text-sm font-medium">Trusted by leading companies worldwide</p>
             <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-              <div className="flex items-center gap-2 text-brand-navy font-semibold">
-                <CheckCircle className="w-5 h-5 text-brand-green" />
-                Microsoft
-              </div>
-              <div className="flex items-center gap-2 text-brand-navy font-semibold">
-                <CheckCircle className="w-5 h-5 text-brand-green" />
-                Google
-              </div>
-              <div className="flex items-center gap-2 text-brand-navy font-semibold">
-                <CheckCircle className="w-5 h-5 text-brand-green" />
-                Amazon
-              </div>
-              <div className="flex items-center gap-2 text-brand-navy font-semibold">
-                <CheckCircle className="w-5 h-5 text-brand-green" />
-                Meta
-              </div>
-              <div className="flex items-center gap-2 text-brand-navy font-semibold">
-                <CheckCircle className="w-5 h-5 text-brand-green" />
-                Apple
-              </div>
+              {hero.clients.map((client, index) => (
+                <div key={index} className="flex items-center gap-2 text-brand-navy font-semibold">
+                  <CheckCircle className="w-5 h-5 text-brand-green" />
+                  {client}
+                </div>
+              ))}
             </div>
           </div>
         </div>

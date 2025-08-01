@@ -4,7 +4,16 @@ import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 
-export function DashboardShowcase() {
+interface PlatformData {
+  title: string;
+  subtitle: string;
+}
+
+interface DashboardShowcaseProps {
+  platform: PlatformData;
+}
+
+export function DashboardShowcase({ platform }: DashboardShowcaseProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -35,7 +44,7 @@ export function DashboardShowcase() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Experience Our Platform
+            {platform.title}
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
@@ -44,8 +53,7 @@ export function DashboardShowcase() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            See how our intuitive dashboard transforms the way you manage assessments, 
-            track candidate progress, and make data-driven hiring decisions.
+            {platform.subtitle}
           </motion.p>
         </div>
 

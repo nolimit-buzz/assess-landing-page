@@ -1,102 +1,96 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
-const faqs = [
-  {
-    question: "How does Assess.ng reduce recruitment time by 60%?",
-    answer: "Our AI-powered assessment platform automates the initial screening process, instantly evaluating candidates against your specific requirements. This eliminates manual resume screening and allows you to focus only on qualified candidates, dramatically reducing time-to-hire."
-  },
-  {
-    question: "What types of assessments can I create?",
-    answer: "Assess.ng supports multiple assessment types including technical skills tests, cognitive ability assessments, personality evaluations, situational judgment tests, and custom assessments tailored to your specific role requirements."
-  },
-  {
-    question: "Is the platform suitable for small businesses?",
-    answer: "Absolutely! Assess.ng is designed to scale with your business. Whether you're a startup hiring your first employees or an enterprise managing hundreds of positions, our platform adapts to your needs with flexible pricing and features."
-  },
-  {
-    question: "How accurate are the AI-powered assessments?",
-    answer: "Our assessments are built on validated psychometric principles and continuously refined through machine learning. We maintain high accuracy rates with regular calibration against real-world performance data to ensure reliable candidate evaluation."
-  },
-  {
-    question: "Can I integrate Assess.ng with my existing HR tools?",
-    answer: "Yes! Assess.ng offers seamless integrations with popular ATS systems, HRIS platforms, and other HR tools. Our API allows for custom integrations to fit your existing workflow perfectly."
-  },
-  {
-    question: "What kind of support do you provide?",
-    answer: "We provide comprehensive support including onboarding assistance, training resources, dedicated customer success managers for enterprise clients, and 24/7 technical support to ensure you get the most out of our platform."
-  }
-];
+interface FAQ {
+  question: string;
+  answer: string;
+}
 
-export function FAQSection() {
-  const [openItems, setOpenItems] = useState<number[]>([]);
+interface FAQsData {
+  title: string;
+  subtitle: string;
+  faqs_list: FAQ[];
+}
 
-  const toggleItem = (index: number) => {
-    setOpenItems(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
-    );
+interface FAQSectionProps {
+  faqs: FAQsData;
+}
+
+export function FAQSection({ faqs }: FAQSectionProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-20 bg-gradient-to-br from-slate-50 to-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-green/10 rounded-full mb-6">
-            <HelpCircle className="w-8 h-8 text-brand-green" />
-          </div>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Get answers to common questions about our assessment platform
-          </p>
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-brand-navy mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            {faqs.title}
+          </motion.h2>
+          <motion.p
+            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            {faqs.subtitle}
+          </motion.p>
         </div>
 
+        {/* FAQ Items */}
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div
+          {faqs.faqs_list.map((faq, index) => (
+            <motion.div
               key={index}
-              className="bg-white rounded-lg border border-gray-200 overflow-hidden"
+              className="bg-white rounded-2xl border border-gray-100 overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true }}
             >
               <button
-                onClick={() => toggleItem(index)}
-                className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
+                className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
+                onClick={() => toggleFAQ(index)}
               >
-                <span className="text-lg font-semibold text-gray-900 pr-4">
+                <h3 className="text-lg font-semibold text-brand-navy pr-4">
                   {faq.question}
-                </span>
-                <ChevronDown 
-                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 flex-shrink-0 ${
-                    openItems.includes(index) ? 'rotate-180' : ''
-                  }`}
-                />
+                </h3>
+                {openIndex === index ? (
+                  <ChevronUp className="w-6 h-6 text-brand-green flex-shrink-0" />
+                ) : (
+                  <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+                )}
               </button>
               
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                openItems.includes(index) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-              }`}>
-                <div className="px-6 pb-5">
-                  <div className="h-px bg-gray-200 mb-4"></div>
+              {openIndex === index && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="px-8 pb-6"
+                >
                   <p className="text-gray-600 leading-relaxed">
                     {faq.answer}
                   </p>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              )}
+            </motion.div>
           ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">
-            Still have questions? We're here to help.
-          </p>
-          <button className="inline-flex items-center px-6 py-3 bg-brand-green text-white font-semibold rounded-lg hover:bg-brand-green/90 transition-colors duration-200">
-            Contact Support
-          </button>
         </div>
       </div>
     </section>
