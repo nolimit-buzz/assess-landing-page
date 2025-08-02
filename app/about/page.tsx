@@ -376,68 +376,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Global Reach CTA Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h2
-            className="text-4xl font-bold text-brand-navy mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            Spread all over the world, get assessment services easily
-          </motion.h2>
-          <motion.p
-            className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Join thousands of companies worldwide who trust Assess.ng for their talent assessment needs.
-          </motion.p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <motion.div
-              className="bg-gray-50 rounded-xl p-8"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <div className="text-4xl font-bold text-brand-green mb-2">100+</div>
-              <div className="text-gray-600">The best locations in the world</div>
-            </motion.div>
-            <motion.div
-              className="bg-gray-50 rounded-xl p-8"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <div className="text-4xl font-bold text-brand-green mb-2">18</div>
-              <div className="text-gray-600">Proven in many countries</div>
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <Link href="#" className="bg-brand-green text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-green/90 transition-colors">
-              Get Started
-            </Link>
-            <Link href="#" className="border border-brand-navy text-brand-navy px-8 py-4 rounded-lg font-semibold hover:bg-brand-navy hover:text-white transition-colors">
-              Learn More
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-brand-navy text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

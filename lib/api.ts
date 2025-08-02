@@ -119,6 +119,13 @@ export interface HomePageData {
       };
       description: string;
     };
+    logo: {
+      formats: {
+        thumbnail: {
+          url: string;
+        };
+      };
+    };
   };
 }
 

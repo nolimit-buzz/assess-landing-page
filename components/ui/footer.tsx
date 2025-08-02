@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Search, Check, Twitter, Linkedin } from 'lucide-react';
+import Image from 'next/image';
 
 interface FooterLink {
   link: string;
@@ -18,6 +19,13 @@ interface FooterData {
   nav_links: {
     links: FooterLinks;
     description: string;
+  };
+  logo: {
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
   };
 }
 
@@ -39,11 +47,13 @@ export function Footer({ footer }: FooterProps) {
             viewport={{ once: true }}
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="relative">
-                <Search className="w-6 h-6 text-brand-navy" />
-                <Check className="w-3 h-3 text-brand-green absolute -top-1 -right-1" />
-              </div>
-              <span className="text-2xl font-bold text-brand-navy">assess.ng</span>
+              <Image 
+                src={footer.logo.formats.thumbnail.url} 
+                alt="Assess.ng Logo" 
+                width={245} 
+                height={53} 
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-sm text-brand-navy mb-2">assessment done right</p>
             <p className="text-gray-600 leading-relaxed max-w-md">
