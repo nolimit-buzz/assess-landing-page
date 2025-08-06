@@ -71,6 +71,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <a href="https://assess.ng">
             <Button 
               size="lg" 
               className="bg-brand-green hover:bg-brand-green/90 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
@@ -78,13 +79,8 @@ export function HeroSection({ hero }: HeroSectionProps) {
               {hero.primary_cta}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
-            >
-              {hero.secondary_cta}
-            </Button>
+            </a>
+            
           </div>
 
           {/* Trust Indicators */}

@@ -35,154 +35,91 @@ export default function ContactPage() {
       {/* Main Content */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="max-w-4xl mx-auto text-center">
             
-            {/* Left Section: Contact Information */}
+            {/* Header Section */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="mb-16"
             >
               <h1 className="text-5xl md:text-6xl font-bold text-brand-navy mb-6 leading-tight">
                 Get in Touch and
-                <span className="block text-brand-green">Let's Discuss</span>
+                <span className="block text-brand-green">Let&apos;s Discuss</span>
               </h1>
               
-              <p className="text-xl text-gray-600 leading-relaxed mb-12">
-                Our platform helps you simplify talent acquisition, retention and management enabling "You" to build high-performing teams
+              <p className="text-xl text-gray-600 leading-relaxed mb-12 max-w-3xl mx-auto">
+                Our platform helps you simplify talent acquisition, retention and management enabling &quot;You&quot; to build high-performing teams
               </p>
+            </motion.div>
 
-              {/* Contact Details */}
-              <div className="space-y-8 mb-12">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+            {/* Contact Details */}
+            <div className="max-w-2xl mx-auto mb-16">
+              <motion.div
+                className="space-y-6"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+              >
+                <div className="flex items-center gap-4 p-4">
+                  <div className="w-12 h-12 bg-brand-green/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Phone className="w-6 h-6 text-brand-green" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-brand-navy mb-2">Telephone</h3>
-                    <p className="text-xl font-bold text-brand-navy">(+234) 807 2690 085</p>
+                    <h3 className="text-lg font-semibold text-brand-navy mb-1">Call Us</h3>
+                    <p className="text-lg font-bold text-brand-navy">(+234) 807 2690 085</p>
+                    <p className="text-sm text-gray-600">Monday - Friday: 9am - 5pm</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-brand-navy/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-4 p-4">
+                  <div className="w-12 h-12 bg-brand-navy/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-brand-navy" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-brand-navy mb-2">Email Address</h3>
-                    <p className="text-xl font-bold text-brand-navy">info@assess.ng</p>
+                    <h3 className="text-lg font-semibold text-brand-navy mb-1">Email Us</h3>
+                    <p className="text-lg font-bold text-brand-navy">info@assess.ng</p>
+                    <p className="text-sm text-gray-600">We&apos;ll respond within 24 hours</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-4 p-4">
+                  <div className="w-12 h-12 bg-brand-green/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-6 h-6 text-brand-green" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-brand-navy mb-2">Location</h3>
+                    <h3 className="text-lg font-semibold text-brand-navy mb-1">Visit Us</h3>
                     <p className="text-gray-600">3 Adetoro Adelaja, Magodo Phase 2, Lagos</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-brand-navy/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-4 p-4">
+                  <div className="w-12 h-12 bg-brand-navy/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Clock className="w-6 h-6 text-brand-navy" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-brand-navy mb-2">Open Hours</h3>
+                    <h3 className="text-lg font-semibold text-brand-navy mb-1">Business Hours</h3>
                     <p className="text-gray-600">Monday - Friday: 9am - 5pm</p>
-                    <p className="text-gray-600">Saturday: Closed</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
+            </div>
 
-              {/* Live Chat Button */}
-              <button className="bg-brand-navy text-white px-6 py-4 rounded-lg font-semibold hover:bg-brand-navy/90 transition-colors flex items-center gap-2 group">
-                Live Chat
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
-
-            {/* Right Section: Contact Form */}
+            {/* CTA Button */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex justify-center items-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-                <h2 className="text-2xl font-bold text-brand-navy mb-8">Send us a Message</h2>
-                
-                <form className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        placeholder="Enter your first name..."
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        placeholder="Enter your last name..."
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="Enter your email address..."
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                      Address
-                    </label>
-                    <input
-                      type="text"
-                      id="address"
-                      placeholder="Enter your address..."
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={6}
-                      placeholder="Enter your message..."
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-colors resize-none"
-                    ></textarea>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-brand-navy text-white px-6 py-4 rounded-lg font-semibold hover:bg-brand-navy/90 transition-colors flex items-center justify-center gap-2 group"
-                  >
-                    Send Message
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </form>
-              </div>
+              <a 
+                href="mailto:info@assess.ng?subject=Contact%20Request%20-%20Assess.ng&body=Hello%2C%0A%0AI%20would%20like%20to%20get%20in%20touch%20regarding%20your%20assessment%20services.%0A%0ABest%20regards%2C%0A%5BYour%20Name%5D"
+                className="bg-brand-green text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-green/90 transition-colors flex items-center gap-2 group"
+              >
+                Send Email
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
             </motion.div>
           </div>
         </div>

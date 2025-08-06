@@ -25,7 +25,7 @@ export function BenefitsSection({ impact }: BenefitsSectionProps) {
   const impactIcons = [TrendingUp, DollarSign, Target, Shield, Users, BarChart3];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-white">
+    <section id="benefits" className="py-20 bg-gradient-to-br from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">

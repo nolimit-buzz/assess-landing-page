@@ -151,5 +151,116 @@ export async function getHomePageData(): Promise<HomePageData> {
   }
 
   const data = await response.json();
+  console.log('data', data.data.footer.nav_links.links.Company);
+  return data.data;
+}
+
+export interface AboutPageData {
+  features: Array<{
+    icon: string;
+    color: string;
+    title: string;
+    description: string;
+  }>;
+  navbar: {
+    nav_links: Array<{
+      href: string;
+      title: string;
+    }>;
+    logo: {
+      formats: {
+        thumbnail: {
+          url: string;
+        };
+      };
+    };
+  };
+  hero: {
+    title: string;
+    subtitle: string;
+    hero_cards: Array<{
+      icon: string;
+      color: string;
+      title: string;
+      description: string;
+    }>;
+    title_highlight: string;
+    primary_cta: {
+      link: string;
+      text: string;
+    };
+    secondary_cta: {
+      link: string;
+      text: string;
+    };
+  };
+  services: {
+    title: string;
+    services_list: Array<{
+      icon: string;
+      link: string;
+      color: string;
+      title: string;
+      description: string;
+    }>;
+  };
+  faqs: {
+    title: string;
+    subtitle: string;
+    faqs_list: Array<{
+      question: string;
+      answer: string;
+    }> | null;
+  };
+  footer: {
+    nav_links: {
+      links: {
+        Company: Array<{
+          link: string;
+          title: string;
+        }>;
+        Product: Array<{
+          href: string;
+          title: string;
+        }>;
+        Support: Array<{
+          link: string;
+          title: string;
+        }>;
+      };
+      description: string;
+    };
+    logo: {
+      formats: {
+        thumbnail: {
+          url: string;
+        };
+      };
+    };
+  };
+}
+
+export async function getAboutPageData(): Promise<AboutPageData> {
+  if (!API_URL) {
+    throw new Error('NEXT_PUBLIC_API_URL is not defined');
+  }
+
+  if (!API_TOKEN) {
+    throw new Error('NEXT_PUBLIC_API_TOKEN is not defined');
+  }
+
+  const response = await fetch(`${API_URL}/api/about-page?populate=navbar&populate=navbar.logo&populate=hero&populate=services&populate=faqs&populate=footer&populate=footer.logo`, {
+    headers: {
+      'Authorization': `Bearer ${API_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    next: { revalidate: 3600 }, // Revalidate every hour
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch about page data');
+  }
+
+  const data = await response.json();
   return data.data;
 } 
