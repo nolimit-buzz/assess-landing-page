@@ -235,5 +235,5 @@ npm run type-check   # Check TypeScript types
 5. Open a Pull Request
 
 ## 📄 License
-..Adding this line to test that the CD pipeline is working
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
