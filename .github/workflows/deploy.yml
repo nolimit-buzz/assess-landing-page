@@ -25,6 +25,8 @@ jobs:
           ssh bitnami@3.138.213.181 << 'EOF'
             cd /home/bitnami/assess-landing-page
             git pull origin main
-            rm -rf .next
+            npm install
+            npm run build
+            npm run export
             pm2 restart assess-landing-page
           EOF
