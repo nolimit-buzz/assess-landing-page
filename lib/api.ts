@@ -129,6 +129,22 @@ export interface HomePageData {
   };
 }
 
+export interface ContactDetailItem {
+  icon: 'Phone' | 'Mail' | 'MapPin' | 'Clock' | string;
+  color: 'green' | 'navy' | string;
+  title: string;
+  main_info: string;
+  action_type: 'tel' | 'mailto' | 'map' | null;
+  description: string | null;
+  action_value: string | null;
+}
+
+export interface ContactPageData {
+  navbar: HomePageData['navbar'];
+  footer: HomePageData['footer'];
+  contact_details: ContactDetailItem[];
+}
+
 export async function getHomePageData(): Promise<HomePageData> {
   if (!API_URL) {
     throw new Error('NEXT_PUBLIC_API_URL is not defined');
@@ -153,3 +169,31 @@ export async function getHomePageData(): Promise<HomePageData> {
   const data = await response.json();
   return data.data;
 } 
+
+export async function getContactPageData(): Promise<ContactPageData> {
+  if (!API_URL) {
+    throw new Error('NEXT_PUBLIC_API_URL is not defined');
+  }
+
+  if (!API_TOKEN) {
+    throw new Error('NEXT_PUBLIC_API_TOKEN is not defined');
+  }
+
+  const response = await fetch(
+    `${API_URL}/api/contact-page?populate=navbar&populate[0]=footer.logo`,
+    {
+      headers: {
+        'Authorization': `Bearer ${API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 3600 },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch contact page data');
+  }
+
+  const data = await response.json();
+  return data.data;
+}
