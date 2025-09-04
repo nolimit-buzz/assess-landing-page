@@ -10,7 +10,11 @@ interface HeroData {
   subtitle: string;
   primary_cta: string;
   secondary_cta: string;
-  clients: string[];
+  clients: Array<{
+    formats?: { thumbnail?: { url: string } };
+    url?: string;
+    name?: string;
+  }>;
   stats: Array<{
     label: string;
     value: string;
@@ -86,14 +90,39 @@ export function HeroSection({ hero }: HeroSectionProps) {
           {/* Trust Indicators */}
           <div className="space-y-4">
             <p className="text-brand-navy/60 text-sm font-medium">Trusted by leading companies worldwide</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-              {hero.clients.map((client, index) => (
-                <div key={index} className="flex items-center gap-2 text-brand-navy font-semibold">
-                  <CheckCircle className="w-5 h-5 text-brand-green" />
-                  {client}
-                </div>
-              ))}
+            <div className="relative overflow-hidden py-4">
+              <div className="marquee flex items-center gap-10 will-change-transform">
+                {[...hero.clients, ...hero.clients].map((client, index) => {
+                  const img = client.formats?.thumbnail?.url || client.url;
+                  if (img) {
+                    return (
+                      <img
+                        key={`marquee-${index}`}
+                        src={img}
+                        alt={client.name || 'Client logo'}
+                        className="h-16 w-auto object-contain shrink-0"
+                      />
+                    );
+                  }
+                  return (
+                    <div key={`marquee-${index}`} className="flex items-center text-brand-navy font-semibold shrink-0">
+                      <CheckCircle className="w-5 h-5 text-brand-green mr-2" />
+                      {client.name || 'Client'}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
+            <style jsx>{`
+              @keyframes scrollX {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+              }
+              .marquee {
+                width: max-content;
+                animation: scrollX 12s linear infinite;
+              }
+            `}</style>
           </div>
         </div>
       </div>

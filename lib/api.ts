@@ -14,7 +14,15 @@ export interface HomePageData {
     subtitle: string;
     primary_cta: string;
     secondary_cta: string;
-    clients: string[];
+    clients: Array<{
+      formats?: {
+        thumbnail?: {
+          url: string;
+        };
+      };
+      url?: string;
+      name?: string;
+    }>;
     stats: Array<{
       label: string;
       value: string;
@@ -147,16 +155,16 @@ export interface ContactPageData {
 
 export async function getHomePageData(): Promise<HomePageData> {
   if (!API_URL) {
-    throw new Error('NEXT_PUBLIC_API_URL is not defined');
+    // Allow fetching from absolute URL when env is not configured
   }
 
   if (!API_TOKEN) {
-    throw new Error('NEXT_PUBLIC_API_TOKEN is not defined');
+    // Token may not be required for public content
   }
 
-  const response = await fetch(`${API_URL}/api/home-page?populate=navbar&populate=hero&populate=platform&populate=platform.platform_img&populate=setup&populate=free_trial&populate=platform&populate=faqs&populate=offer&populate[0]=footer.logo&populate=assessment_suite&populate=cv_ranking&populate=impact`, {
+  const response = await fetch(`https://diligent-light-6531c314f6.strapiapp.com/api/home-page?populate=navbar&populate=hero&&populate=hero.clients&populate=platform&populate=platform.platform_img&populate=setup&populate=free_trial&populate=platform&populate=faqs&populate=offer&populate[0]=footer.logo&populate=assessment_suite&populate=cv_ranking&populate=impact`, {
     headers: {
-      'Authorization': `Bearer ${API_TOKEN}`,
+      ...(API_TOKEN ? { 'Authorization': `Bearer ${API_TOKEN}` } : {}),
       'Content-Type': 'application/json',
     },
     next: { revalidate: 3600 }, // Revalidate every hour
@@ -167,10 +175,7 @@ export async function getHomePageData(): Promise<HomePageData> {
   }
 
   const data = await response.json();
-  console.log('data', data.data.footer.nav_links.links.Company);
   return data.data;
-<<<<<<< HEAD
-=======
 }
 
 export interface AboutPageData {
@@ -238,7 +243,7 @@ export interface AboutPageData {
           title: string;
         }>;
         Product: Array<{
-          href: string;
+          link: string;
           title: string;
         }>;
         Support: Array<{
@@ -281,8 +286,7 @@ export async function getAboutPageData(): Promise<AboutPageData> {
 
   const data = await response.json();
   return data.data;
->>>>>>> contact-fix
-} 
+}
 
 export async function getContactPageData(): Promise<ContactPageData> {
   if (!API_URL) {
