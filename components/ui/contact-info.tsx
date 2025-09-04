@@ -80,11 +80,6 @@ export function ContactInfo({ contactDetails }: { contactDetails: ContactDetailI
           return <div key={idx}>{inner}</div>;
         })}
       </div>
-
-      <button className="bg-brand-navy text-white px-6 py-4 rounded-lg font-semibold hover:bg-brand-navy/90 transition-colors flex items-center gap-2 group">
-        Live Chat
-        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-      </button>
     </motion.div>
   );
 }
