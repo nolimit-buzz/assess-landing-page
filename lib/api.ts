@@ -153,6 +153,18 @@ export interface ContactPageData {
   contact_details: ContactDetailItem[];
 }
 
+export interface PrivacyPolicyData {
+  content: string;
+  navbar: HomePageData['navbar'];
+  footer: HomePageData['footer'];
+}
+
+export interface TermsOfServiceData {
+  content: string;
+  navbar: HomePageData['navbar'];
+  footer: HomePageData['footer'];
+}
+
 export async function getHomePageData(): Promise<HomePageData> {
   if (!API_URL) {
     // Allow fetching from absolute URL when env is not configured
@@ -310,6 +322,40 @@ export async function getContactPageData(): Promise<ContactPageData> {
 
   if (!response.ok) {
     throw new Error('Failed to fetch contact page data');
+  }
+
+  const data = await response.json();
+  return data.data;
+}
+
+export async function getPrivacyPolicyData(): Promise<PrivacyPolicyData> {
+  const response = await fetch(`https://diligent-light-6531c314f6.strapiapp.com/api/privacy-policy?populate=navbar&populate=footer.logo`, {
+    headers: {
+      ...(API_TOKEN ? { 'Authorization': `Bearer ${API_TOKEN}` } : {}),
+      'Content-Type': 'application/json',
+    },
+    next: { revalidate: 3600 },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch privacy policy');
+  }
+
+  const data = await response.json();
+  return data.data;
+}
+
+export async function getTermsOfServiceData(): Promise<TermsOfServiceData> {
+  const response = await fetch(`https://diligent-light-6531c314f6.strapiapp.com/api/terms-of-service?populate=navbar&populate=footer.logo`, {
+    headers: {
+      ...(API_TOKEN ? { 'Authorization': `Bearer ${API_TOKEN}` } : {}),
+      'Content-Type': 'application/json',
+    },
+    next: { revalidate: 3600 },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch terms of service');
   }
 
   const data = await response.json();
