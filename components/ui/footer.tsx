@@ -5,7 +5,8 @@ import { Search, Check, Twitter, Linkedin } from 'lucide-react';
 import Image from 'next/image';
 
 interface FooterLink {
-  link: string;
+  link?: string;
+  href?: string;
   title: string;
 }
 
@@ -55,7 +56,6 @@ export function Footer({ footer }: FooterProps) {
                 className="h-8 w-auto"
               />
             </div>
-            <p className="text-sm text-brand-navy mb-2">assessment done right</p>
             <p className="text-gray-600 leading-relaxed max-w-md">
               {footer.nav_links.description}
             </p>
@@ -73,7 +73,7 @@ export function Footer({ footer }: FooterProps) {
               {footer.nav_links.links.Product.map((link, index) => (
                 <li key={index}>
                   <a
-                    href={link.link}
+                    href={link.href || link.link}
                     className="text-gray-600 hover:text-brand-navy transition-colors duration-200"
                   >
                     {link.title}
@@ -95,7 +95,7 @@ export function Footer({ footer }: FooterProps) {
               {footer.nav_links.links.Company.map((link, index) => (
                 <li key={index}>
                   <a
-                    href={link.link}
+                    href={link.link || link.href}
                     className="text-gray-600 hover:text-brand-navy transition-colors duration-200"
                   >
                     {link.title}
@@ -117,7 +117,7 @@ export function Footer({ footer }: FooterProps) {
               {footer.nav_links.links.Support.map((link, index) => (
                 <li key={index}>
                   <a
-                    href={link.link}
+                    href={link.link || link.href}
                     className="text-gray-600 hover:text-brand-navy transition-colors duration-200"
                   >
                     {link.title}

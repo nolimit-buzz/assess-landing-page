@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { CheckCircle, Brain, Code, Users, Target, Shield } from 'lucide-react';
+import { CheckCircle, Brain, Code, Users, Target, Shield, ArrowRight } from 'lucide-react';
+import { Button } from './button';
 
 interface AssessmentCard {
   title: string;
@@ -33,7 +34,7 @@ export function AssessmentTypes({ assessmentSuite }: AssessmentTypesProps) {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-white">
+    <section id="assessment-suite" className="py-20 bg-gradient-to-br from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -55,7 +56,18 @@ export function AssessmentTypes({ assessmentSuite }: AssessmentTypesProps) {
           >
             {assessmentSuite.subtitle}
           </motion.p>
-          <motion.div 
+         
+          <motion.a href="https://assessments.assess.ng/login" target="_blank">
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="mt-4 border-2 border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
+            >
+              <p>View all Assessments</p>
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            </motion.a>
+            <motion.div 
             className="w-24 h-1 bg-brand-green mx-auto mt-8 rounded-full"
             initial={{ opacity: 0, scaleX: 0 }}
             whileInView={{ opacity: 1, scaleX: 1 }}

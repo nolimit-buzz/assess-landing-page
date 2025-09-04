@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-
+import Link from 'next/link'
 interface NavLink {
   href: string;
   title: string;
@@ -12,9 +12,16 @@ interface NavLink {
 
 interface NavigationProps {
   navLinks: NavLink[];
+  logo?: {
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
+  };
 }
 
-export function Navigation({ navLinks }: NavigationProps) {
+export function Navigation({ navLinks, logo }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -23,14 +30,16 @@ export function Navigation({ navLinks }: NavigationProps) {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
+            <Link href="/">
             <Image
-              src="/logo.png"
+              src={logo?.formats?.thumbnail?.url || "/logo.png"}
               alt="Assess.ng"
-              width={140}
-              height={30}
+              width={160}
+              height={100}
               className="h-8 w-auto"
               priority
             />
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -50,12 +59,16 @@ export function Navigation({ navLinks }: NavigationProps) {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="text-gray-700 hover:text-brand-green">
-              {navLinks[navLinks.length - 2]?.title || 'Sign In'}
-            </Button>
-            <Button className="bg-brand-green hover:bg-brand-green/90 text-white">
-              {navLinks[navLinks.length - 1]?.title || 'Get Started Free'}
-            </Button>
+            <a href={navLinks[navLinks.length - 2]?.href} target="_blank">
+              <Button variant="ghost" className="text-gray-700 hover:text-brand-green hover:bg-transparent">
+               { navLinks[navLinks.length - 2]?.title }
+              </Button>
+            </a>
+            <a href={navLinks[navLinks.length - 1]?.href} target="_blank">
+              <Button className="bg-brand-green hover:bg-brand-green/80  text-white">
+                { navLinks[navLinks.length - 1]?.title }
+              </Button>
+            </a>
           </div>
 
           {/* Mobile menu button */}

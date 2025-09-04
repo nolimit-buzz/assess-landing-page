@@ -30,7 +30,7 @@ interface CTASectionProps {
 
 export function CTASection({ freeTrial, offer }: CTASectionProps) {
   return (
-    <section className="max-w-[1200px] rounded-xl mx-auto py-20 bg-gradient-to-br from-brand-navy to-brand-green">
+    <section id="pricing" className="max-w-[1200px] rounded-xl mx-auto py-20 bg-gradient-to-br from-brand-navy to-brand-green">
       <div className="px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center"
@@ -107,13 +107,15 @@ export function CTASection({ freeTrial, offer }: CTASectionProps) {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
+            <motion.a href="https://app.assess.ng" target="_blank">
             <button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 group flex items-center gap-2">
               {offer.primary_cta}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </button></motion.a>
+            <motion.a href="/contact">
             <button className="border-2 border-white text-white hover:bg-white hover:text-brand-green px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300">
               {offer.secondary_cta}
-            </button>
+            </button></motion.a>
           </motion.div>
 
           {/* Social Proof Statistics */}
