@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const fromAddress = process.env.RESEND_FROM || 'onboarding@resend.dev';
+    const fromAddress = process.env.RESEND_FROM || 'info@assess.ng';
 
     const result = await resend.emails.send({
       from: fromAddress,
