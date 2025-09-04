@@ -19,7 +19,7 @@ export default async function PrivacyPolicyPage() {
             <p className="text-brand-navy/60 mt-2">We value your privacy and are committed to protecting your data.</p>
           </div>
 
-          <article className="prose prose-slate max-w-none [&_h1]:text-brand-navy [&_h2]:text-brand-navy [&_h3]:text-brand-navy [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_h1]:leading-tight [&_h2]:leading-tight [&_strong]:text-brand-navy [&_h2]:mt-10 [&_h3]:mt-6 [&_p]:mt-4 [&_ul]:mt-4 [&_ol]:mt-4">
+          <article className="prose prose-slate max-w-none [&_h1]:text-brand-navy [&_h2]:text-brand-navy [&_h3]:text-brand-navy [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_h1]:leading-tight [&_h2]:leading-tight [&_strong]:text-brand-navy [&_h2]:mt-10 [&_h3]:mt-6 [&_p]:mt-4 [&_ul]:mt-4 [&_ol]:mt-4 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6 prose-li:my-1 prose-li:marker:text-brand-navy">
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: markdownToHtml(data.content) }} />
           </article>
@@ -32,21 +32,51 @@ export default async function PrivacyPolicyPage() {
 }
 
 function markdownToHtml(markdown: string) {
-  // Minimal markdown → HTML for headings, bold, lists, and line breaks
-  let html = markdown
-    .replace(/^###\s(.+)$/gim, '<h3>$1</h3>')
-    .replace(/^##\s(.+)$/gim, '<h2>$1</h2>')
-    .replace(/^#\s(.+)$/gim, '<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/gim, '<strong>$1</strong>')
-    .replace(/\n\n-\s/gm, '\n<ul><li>')
-    .replace(/\n-\s/gm, '</li><li>')
-    .replace(/(\n\n)([^<\n-].*)/gm, '<p>$2</p>')
-    .replace(/\n\n/gm, '<br/>')
-    .replace(/\n/gm, '<br/>');
-  // Close any open list tags
-  if (html.includes('<ul><li>')) {
-    html = html.replace(/(<ul><li>[\s\S]*?)(?=<p>|$)/gm, (m) => m.endsWith('</li>') ? `${m}</ul>` : `${m}</li></ul>`);
+  // Simple markdown to HTML with correct bullet lists
+  const lines = markdown.split(/\r?\n/);
+  let html = '';
+  let inUl = false;
+  let inOl = false;
+
+  const flushLists = () => {
+    if (inUl) { html += '</ul>'; inUl = false; }
+    if (inOl) { html += '</ol>'; inOl = false; }
+  };
+
+  for (let raw of lines) {
+    const line = raw.replace(/\s+$/,''); // trim trailing spaces
+
+    // Headings
+    if (/^###\s+/.test(line)) { flushLists(); const t=line.replace(/^###\s+/, ''); html += `<h3>${t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</h3>`; continue; }
+    if (/^##\s+/.test(line)) { flushLists(); const t=line.replace(/^##\s+/, ''); html += `<h2>${t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</h2>`; continue; }
+    if (/^#\s+/.test(line))   { flushLists(); const t=line.replace(/^#\s+/, ''); html += `<h1>${t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</h1>`; continue; }
+
+    // Unordered list item
+    if (/^-\s+/.test(line)) {
+      if (!inUl) { flushLists(); html += '<ul>'; inUl = true; }
+      const t=line.replace(/^-\s+/, '');
+      html += `<li>${t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</li>`;
+      continue;
+    }
+
+    // Ordered list item (e.g., 1. Item)
+    if (/^\d+\.\s+/.test(line)) {
+      if (!inOl) { flushLists(); html += '<ol>'; inOl = true; }
+      const t=line.replace(/^\d+\.\s+/, '');
+      html += `<li>${t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</li>`;
+      continue;
+    }
+
+    // Blank line
+    if (line.trim() === '') { flushLists(); html += ''; continue; }
+
+    // Paragraph
+    flushLists();
+    const safe = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html += `<p>${safe}</p>`;
   }
+
+  flushLists();
   return html;
 }
 
