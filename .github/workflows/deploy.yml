@@ -27,8 +27,9 @@ jobs:
             git pull origin main
             npm install
             npm run build
+            npm run export
             pm2 stop assess-landing-page || true
             pm2 delete assess-landing-page || true
-            pm2 start npm --name assess-landing-page -- start
+            pm2 start npx --name assess-landing-page -- serve out
             pm2 save
           EOF
