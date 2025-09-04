@@ -10,6 +10,14 @@ interface HeroData {
   subtitle: string;
   primary_cta: string;
   secondary_cta: string;
+  ndpc_certification?: {
+    text: string;
+    logo?: {
+      formats?: { thumbnail?: { url: string } };
+      url?: string;
+      name?: string | null;
+    };
+  } | null;
   clients: Array<{
     formats?: { thumbnail?: { url: string } };
     url?: string;
@@ -113,6 +121,24 @@ export function HeroSection({ hero }: HeroSectionProps) {
                 })}
               </div>
             </div>
+            {/* NDPC Certification (placed after client logos) */}
+            {hero.ndpc_certification && (
+              <div className="flex flex-col items-center justify-center gap-2" style={{ marginTop: '60px' }}>
+                {(() => {
+                  const ndpcLogo = hero.ndpc_certification?.logo?.formats?.thumbnail?.url || hero.ndpc_certification?.logo?.url;
+                  return ndpcLogo ? (
+                    <img
+                      src={ndpcLogo}
+                      alt={hero.ndpc_certification?.logo?.name || 'NDPC certification'}
+                      className="h-20 w-auto object-contain"
+                    />
+                  ) : null;
+                })()}
+                <span className="text-sm text-brand-navy/70 text-center">
+                  {hero.ndpc_certification.text}
+                </span>
+              </div>
+            )}
             <style jsx>{`
               @keyframes scrollX {
                 0% { transform: translateX(0); }

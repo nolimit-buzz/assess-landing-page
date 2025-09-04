@@ -14,6 +14,16 @@ export interface HomePageData {
     subtitle: string;
     primary_cta: string;
     secondary_cta: string;
+    ndpc_certification?: {
+      text: string;
+      logo?: {
+        formats?: {
+          thumbnail?: { url: string };
+        };
+        url?: string;
+        name?: string | null;
+      };
+    } | null;
     clients: Array<{
       formats?: {
         thumbnail?: {
@@ -173,8 +183,7 @@ export async function getHomePageData(): Promise<HomePageData> {
   if (!API_TOKEN) {
     // Token may not be required for public content
   }
-
-  const response = await fetch(`https://diligent-light-6531c314f6.strapiapp.com/api/home-page?populate=navbar&populate=hero&&populate=hero.clients&populate=platform&populate=platform.platform_img&populate=setup&populate=free_trial&populate=platform&populate=faqs&populate=offer&populate[0]=footer.logo&populate=assessment_suite&populate=cv_ranking&populate=impact`, {
+  const response = await fetch(`https://diligent-light-6531c314f6.strapiapp.com/api/home-page?populate=navbar&populate=hero&populate=hero.ndpc_certification.logo&populate=hero.clients&populate=platform&populate=platform.platform_img&populate=setup&populate=free_trial&populate=platform&populate=faqs&populate=offer&populate[0]=footer.logo&populate=assessment_suite&populate=cv_ranking&populate=impact`, {
     headers: {
       ...(API_TOKEN ? { 'Authorization': `Bearer ${API_TOKEN}` } : {}),
       'Content-Type': 'application/json',

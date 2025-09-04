@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Clock, Users, Shield, Star } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock, Shield, Star, DollarSign } from 'lucide-react';
 
 interface FreeTrialData {
   title: string;
@@ -90,8 +90,8 @@ export function CTASection({ freeTrial, offer }: CTASectionProps) {
               <span>Cancel anytime, no commitments</span>
             </div>
             <div className="flex items-center gap-3 text-white">
-              <Users className="w-5 h-5 text-white" />
-              <span>14-day free trial with full access</span>
+              <DollarSign className="w-5 h-5 text-white" />
+              <span>Flexible plans tailored to your needs</span>
             </div>
             <div className="flex items-center gap-3 text-white">
               <Shield className="w-5 h-5 text-white" />

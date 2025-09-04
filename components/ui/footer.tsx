@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Search, Check, Twitter, Linkedin } from 'lucide-react';
+import { Search, Check, Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
 import Image from 'next/image';
 
 interface FooterLink {
@@ -20,6 +20,12 @@ interface FooterData {
   nav_links: {
     links: FooterLinks;
     description: string;
+    social?: Array<{
+      platform: string;
+      url: string;
+      icon?: 'Twitter' | 'Linkedin' | 'Instagram' | 'Facebook' | string;
+      ariaLabel?: string;
+    }>;
   };
   logo: {
     formats: {
@@ -57,7 +63,7 @@ export function Footer({ footer }: FooterProps) {
               />
             </div>
             <p className="text-gray-600 leading-relaxed max-w-md">
-              {footer.nav_links.description}
+              {footer.nav_links?.description || "The smarter way to find, hire & retain top talent with AI-powered assessments."}
             </p>
           </motion.div>
 
@@ -70,7 +76,7 @@ export function Footer({ footer }: FooterProps) {
           >
             <h3 className="text-lg font-semibold text-brand-navy mb-6">Product</h3>
             <ul className="space-y-3">
-              {footer.nav_links.links.Product.map((link, index) => (
+              {footer.nav_links?.links?.Product?.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.href || link.link}
@@ -92,7 +98,7 @@ export function Footer({ footer }: FooterProps) {
           >
             <h3 className="text-lg font-semibold text-brand-navy mb-6">Company</h3>
             <ul className="space-y-3">
-              {footer.nav_links.links.Company.map((link, index) => (
+              {footer.nav_links?.links?.Company?.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.link || link.href}
@@ -114,7 +120,7 @@ export function Footer({ footer }: FooterProps) {
           >
             <h3 className="text-lg font-semibold text-brand-navy mb-6">Support</h3>
             <ul className="space-y-3">
-              {footer.nav_links.links.Support.map((link, index) => (
+              {footer.nav_links?.links?.Support?.map((link, index) => (
                 <li key={index}>
                   <a
                     href={link.link || link.href}
@@ -135,12 +141,33 @@ export function Footer({ footer }: FooterProps) {
               © 2024 Assess.ng. All rights reserved.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <a href="#" className="text-gray-600 hover:text-brand-navy transition-colors duration-200">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-600 hover:text-brand-navy transition-colors duration-200">
-                <Linkedin className="w-5 h-5" />
-              </a>
+              {(footer.nav_links?.social && footer.nav_links.social.length > 0
+                ? footer.nav_links.social
+                : [
+                    { platform: 'Twitter', url: 'https://x.com/assess_ng?s=21', icon: 'Twitter' },
+                    { platform: 'LinkedIn', url: 'https://www.linkedin.com/company/assess-ng/', icon: 'Linkedin' },
+                    { platform: 'Instagram', url: 'https://www.instagram.com/assess.ng/', icon: 'Instagram' },
+                    { platform: 'Facebook', url: 'https://www.facebook.com/share/1JYZ8UovXy/?mibextid=wwXIfr', icon: 'Facebook' },
+                  ]
+              ).map((s, idx) => {
+                const Icon =
+                  s.icon === 'Linkedin' ? Linkedin :
+                  s.icon === 'Instagram' ? Instagram :
+                  s.icon === 'Facebook' ? Facebook :
+                  Twitter;
+                return (
+                  <a
+                    key={idx}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.ariaLabel || `Follow Assess.ng on ${s.platform}`}
+                    className="text-gray-600 hover:text-brand-navy transition-colors duration-200"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
